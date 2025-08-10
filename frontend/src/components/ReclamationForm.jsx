@@ -128,8 +128,7 @@ function ReclamationForm() {
   ];
 
   return (
-   <section className=" p-4 bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl shadow-lg h-[90vh]  space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-
+   <section className=" p-4 bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl shadow-lg h-[90vh]  space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
   <Toaster position="top-center" />
 
   {/* Efectos de fondo */}
