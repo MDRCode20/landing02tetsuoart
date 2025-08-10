@@ -128,98 +128,116 @@ function ReclamationForm() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-black text-center relative overflow-hidden">
-      <Toaster position="top-center" />
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
-      </div>
-      <motion.form
-        onSubmit={handleSubmit}
-        variants={fadeInUp}
-        initial="hidden"
-        animate="visible"
-        className="max-w-3xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8 sm:p-10 relative z-10 space-y-6"
+   <section className=" p-4 bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl shadow-lg h-[90vh]  space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+
+  <Toaster position="top-center" />
+
+  {/* Efectos de fondo */}
+  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+    <div className="absolute top-10 left-10 w-72 h-72 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
+    <div className="absolute bottom-10 right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
+  </div>
+
+  <motion.form
+    onSubmit={handleSubmit}
+    variants={fadeInUp}
+    initial="hidden"
+    animate="visible"
+    className="max-w-2xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8 sm:p-10 relative z-10 space-y-6  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
+  >
+    <h2 className="text-3xl font-extrabold text-white mb-6 tracking-wide">
+      Libro de Reclamaciones
+    </h2>
+
+    {fields.map((field, index) => (
+      <motion.div
+        key={index}
+        className="relative text-left "
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.05 }}
       >
-        <h2 className="text-3xl font-extrabold text-white mb-6 tracking-wide">
-          Libro de Reclamaciones
-        </h2>
-        {fields.map((field, index) => (
-          <motion.div
-            key={index}
-            className="relative"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-white text-xl sm:text-2xl drop-shadow-lg">{field.icon}</span>
-              <input
-                name={field.name}
-                value={form[field.name]}
-                onChange={handleChange}
-                placeholder={field.placeholder}
-                type={field.type || 'text'}
-                required={field.required}
-                className="text-sm sm:text-lg w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 transition-all duration-300"
-              />
-            </div>
-          </motion.div>
-        ))}
-
-        <select
-          name="tipo"
-          value={form.tipo}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
-        >
-          <option value="Reclamo_Asistido">Reclamo Asistido</option>
-          <option value="Reclamo_Independiente">Reclamo Independiente</option>
-        </select>
-
-        <textarea
-          name="detalle"
-          value={form.detalle}
-          onChange={handleChange}
-          placeholder="Detalle de la reclamación o queja"
-          required
-          rows={4}
-          className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
-        />
-
-        <textarea
-          name="pedido"
-          value={form.pedido}
-          onChange={handleChange}
-          placeholder="Pedido concreto del consumidor"
-          required
-          rows={3}
-          className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40"
-        />
-
-        <motion.button
-          type="submit"
-          className="relative w-full overflow-hidden bg-black text-white font-semibold py-3 rounded-2xl group"
-          whileHover="hover"
-        >
-          <motion.span
-            className="absolute inset-0 bg-white rounded-2xl z-0"
-            initial={{ scaleX: 0, scaleY: 2, originX: 0, originY: 0 }}
-            variants={{
-              hover: {
-                scaleX: 1,
-                scaleY: 2,
-                transition: { duration: 0.6, ease: 'easeInOut' },
-              },
-            }}
-          />
-          <span className="relative z-10 transition duration-300 group-hover:text-black">
-            Enviar Reclamo
+        <label className="block mb-2 text-sm font-semibold text-white">
+          {field.label}
+        </label>
+        <div className="flex items-center gap-3">
+          <span className="text-white text-xl sm:text-2xl drop-shadow-lg">
+            {field.icon}
           </span>
-        </motion.button>
-      </motion.form>
-    </section>
+          <input
+            name={field.name}
+            value={form[field.name]}
+            onChange={handleChange}
+            placeholder={field.placeholder}
+            type={field.type || "text"}
+            required={field.required}
+            className="text-sm sm:text-base w-full px-4 py-3  rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-300"
+          />
+        </div>
+      </motion.div>
+    ))}
+
+    {/* Tipo */}
+    <div className="text-left">
+      <label className="block mb-2 text-sm font-semibold text-white">
+        Tipo de reclamo
+      </label>
+      <select
+        name="tipo"
+        value={form.tipo}
+        onChange={handleChange}
+        required
+        className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-red-400"
+      >
+        <option value="Reclamo_Asistido">Reclamo Asistido</option>
+        <option value="Reclamo_Independiente">Reclamo Independiente</option>
+      </select>
+    </div>
+
+    {/* Detalle */}
+    <div className="text-left">
+      <label className="block mb-2 text-sm font-semibold text-white">
+        Detalle
+      </label>
+      <textarea
+        name="detalle"
+        value={form.detalle}
+        onChange={handleChange}
+        placeholder="Detalle de la reclamación o queja"
+        required
+        rows={4}
+        className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-400"
+      />
+    </div>
+
+    {/* Pedido */}
+    <div className="text-left">
+      <label className="block mb-2 text-sm font-semibold text-white">
+        Pedido
+      </label>
+      <textarea
+        name="pedido"
+        value={form.pedido}
+        onChange={handleChange}
+        placeholder="Pedido concreto del consumidor"
+        required
+        rows={3}
+        className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-400"
+      />
+    </div>
+
+    {/* Botón */}
+    <motion.button
+      type="submit"
+      className="relative w-full overflow-hidden bg-red-600 hover:bg-red-500 text-white font-semibold py-3 rounded-2xl shadow-lg transition-all duration-300"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      Enviar Reclamo
+    </motion.button>
+  </motion.form>
+</section>
+
   );
 }
 

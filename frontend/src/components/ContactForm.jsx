@@ -22,10 +22,13 @@ const ContactForm = () => {
 
     try {
       // Ajusta la URL a tu backend real
-      const response = await axios.post(
-        "http://localhost:8000/api/contacto",
-        formData
-      );
+    const response = await fetch("http://localhost:8000/api/contacto", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(formData),
+});
 
       if (response.status === 201 || response.status === 200) {
         toast.success("¡Mensaje enviado con éxito!");

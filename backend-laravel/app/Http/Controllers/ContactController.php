@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,25 +6,36 @@ use App\Models\Contact;
 
 class ContactController extends Controller
 {
+    // Guardar un contacto
     public function store(Request $request)
     {
-        // Validación
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string',
+            'nombre' => 'required|string|max:255',
+            'correo' => 'required|email|max:255',
+            'mensaje' => 'required|string',
         ]);
 
-        // Guardar en la base de datos
-        Contact::create($validated);
+        Contact::create([
+            'name' => $validated['nombre'],
+            'email' => $validated['correo'],
+            'message' => $validated['mensaje'],
+        ]);
 
-        return response()->json([
-            'message' => 'Contacto guardado correctamente'
-        ], 201);
+        return response()->json(['message' => 'Contacto guardado correctamente'], 201);
     }
 
-      public function index()
+    // Listar todos los contactos (solo para administrador)
+    public function index()
     {
-        return Contact::latest()->get();
+        $contacts = Contact::orderBy('created_at', 'desc')->get();
+        return response()->json($contacts);
+    }
+
+    // Eliminar un contacto
+    public function destroy($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return response()->json(['message' => 'Contacto eliminado correctamente']);
     }
 }

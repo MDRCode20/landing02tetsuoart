@@ -96,16 +96,16 @@ useEffect(() => {
         <p>&copy; {new Date().getFullYear()} <span className="font-semibold text-white">Tetsuo Art</span>. Todos los derechos reservados.</p>
         <p className="text-white/50 mt-2">Diseño y desarrollo con ❤️ desde Perú</p>
        {mostrarModal && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-50">
-    <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl relative">
+  <div className="fixed inset-0 bg-gradient-to-b from-black to-gray-900 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-50">
+    
       <button
         onClick={() => setMostrarModal(false)}
-        className="absolute top-4 right-4 text-black text-2xl font-bold z-10"
+        className="absolute top-10 right-10 text-gray-200 text-2xl font-bold z-10"
       >
         &times;
       </button>
       <ReclamationForm />
-    </div>
+ 
   </div>
 )}
       </motion.div>
