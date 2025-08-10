@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const ContactForm = () => {
- const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     nombre: "",
     correo: "",
     mensaje: "",
@@ -17,32 +19,31 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await fetch("https://tu-backend.com/api/contacto", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // Ajusta la URL a tu backend real
+      const response = await axios.post(
+        "http://localhost:8000/api/contacto",
+        formData
+      );
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("¡Mensaje enviado con éxito!");
+      if (response.status === 201 || response.status === 200) {
+        toast.success("¡Mensaje enviado con éxito!");
         setFormData({ nombre: "", correo: "", mensaje: "" });
       } else {
-        alert("Ocurrió un error: " + data.message);
+        toast.error("Ocurrió un error al enviar el mensaje");
       }
     } catch (error) {
-      alert("Error de conexión con el servidor");
-      console.error(error);
+      toast.error("Error de conexión con el servidor");
+      console.error("Error al enviar formulario:", error);
     }
   };
 
-
   return (
-    <section id="contacto" className="py-20 px-4 bg-black text-center relative overflow-hidden">
+    <section
+      id="contacto"
+      className="py-20 px-4 bg-black text-center relative overflow-hidden"
+    >
       {/* Luces suaves de fondo */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
@@ -69,8 +70,8 @@ const ContactForm = () => {
             type="text"
             placeholder="Tu nombre completo"
             className="w-full bg-white/10 backdrop-blur-lg border border-white/20 placeholder-white/60 text-white p-4 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-white/40 transition duration-300"
-         required
-         />
+            required
+          />
 
           <motion.input
             name="correo"
@@ -80,43 +81,40 @@ const ContactForm = () => {
             type="email"
             placeholder="Correo electrónico"
             className="w-full bg-white/10 backdrop-blur-lg border border-white/20 placeholder-white/60 text-white p-4 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-white/40 transition duration-300"
-          required
+            required
           />
 
           <motion.textarea
-               name="mensaje"
+            name="mensaje"
             value={formData.mensaje}
             onChange={handleChange}
             whileFocus={{ scale: 1.01 }}
             placeholder="Tu mensaje"
             rows={4}
             className="w-full bg-white/10 backdrop-blur-lg border border-white/20 placeholder-white/60 text-white p-4 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-white/40 transition duration-300"
-         required
-         />
+            required
+          />
 
-       <motion.button
-  className="relative w-full overflow-hidden bg-black text-white font-semibold py-3 rounded-2xl group"
-  whileHover="hover"
-     type="submit"
->
-  {/* Capa blanca animada */}
-  <motion.span
-    className="absolute inset-0 bg-white rounded-1xl z-0"
-    initial={{ scaleX: 0, scaleY: 2, originX: 0, originY: 0 }}
-    variants={{
-      hover: {
-        scaleX: 1,
-        scaleY: 2,
-        transition: { duration: 0.3, ease: "easeInOut" },
-      },
-    }}
-  />
-  {/* Texto que cambia a negro cuando el fondo se vuelve blanco */}
-  <span className="relative z-10 transition duration-300 group-hover:text-black">
-    Enviar
-  </span>
-</motion.button>
-
+          <motion.button
+            className="relative w-full overflow-hidden bg-black text-white font-semibold py-3 rounded-2xl group"
+            whileHover="hover"
+            type="submit"
+          >
+            <motion.span
+              className="absolute inset-0 bg-white rounded-1xl z-0"
+              initial={{ scaleX: 0, scaleY: 2, originX: 0, originY: 0 }}
+              variants={{
+                hover: {
+                  scaleX: 1,
+                  scaleY: 2,
+                  transition: { duration: 0.3, ease: "easeInOut" },
+                },
+              }}
+            />
+            <span className="relative z-10 transition duration-300 group-hover:text-black">
+              Enviar
+            </span>
+          </motion.button>
         </form>
       </motion.div>
     </section>

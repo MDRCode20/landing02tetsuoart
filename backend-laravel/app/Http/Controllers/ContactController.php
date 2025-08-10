@@ -9,16 +9,23 @@ class ContactController extends Controller
 {
     public function store(Request $request)
     {
-        // Validar
+        // Validación
         $validated = $request->validate([
-            'nombre' => 'required|string',
-            'correo' => 'required|email',
-            'mensaje' => 'required|string',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string',
         ]);
 
-        // Guardar
-        $contact = Contact::create($validated);
+        // Guardar en la base de datos
+        Contact::create($validated);
 
-        return response()->json(['message' => 'Mensaje enviado correctamente'], 201);
+        return response()->json([
+            'message' => 'Contacto guardado correctamente'
+        ], 201);
+    }
+
+      public function index()
+    {
+        return Contact::latest()->get();
     }
 }

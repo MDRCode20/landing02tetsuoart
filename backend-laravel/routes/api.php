@@ -6,9 +6,11 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\AuthController;
 
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/contacto', [ContactController::class, 'store']);
+Route::get('/contactos', [ContactController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/reclamaciones', [ReclamationController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
