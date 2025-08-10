@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss";
+@import "animate.css";
+body {
+  background-color: #000;
+  color: #f1f1f1;
+  font-family: 'Inter', sans-serif;
+}
+@keyframes blink {
+  0%, 100% {
+    color: white;
+  }
+  50% {
+    color: black;
+  }
+}
+
+.blink-text {
+  animation: blink 1s infinite;
+}
