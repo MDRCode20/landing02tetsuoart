@@ -97,7 +97,12 @@ useEffect(() => {
         <p className="text-white/50 mt-2">Diseño y desarrollo con ❤️ desde Perú</p>
        {mostrarModal && (
   <div className="fixed inset-0 bg-gradient-to-b from-black to-gray-900 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-50">
-    
+      {/* Efectos de fondo */}
+  <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+    <div className="absolute top-10 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-purple-600/20 rounded-full blur-3xl animate-pulse" />
+    <div className="absolute bottom-10 right-10 w-48 sm:w-72 h-48 sm:h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
+  </div>
+
       <button
         onClick={() => setMostrarModal(false)}
         className="absolute top-10 right-10 text-gray-200 text-2xl font-bold z-10"

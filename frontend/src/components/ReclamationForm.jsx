@@ -128,14 +128,9 @@ function ReclamationForm() {
   ];
 
   return (
-   <section className=" p-4 bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl shadow-lg h-[90vh]  space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
+ <section className="absolute z-30 p-4 sm:p-6 bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl shadow-lg max-h-screen sm:h-[80vh] space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200">
   <Toaster position="top-center" />
 
-  {/* Efectos de fondo */}
-  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-    <div className="absolute top-10 left-10 w-72 h-72 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
-    <div className="absolute bottom-10 right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
-  </div>
 
   <motion.form
     onSubmit={handleSubmit}
