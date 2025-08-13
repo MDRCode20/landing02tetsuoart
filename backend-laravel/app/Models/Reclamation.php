@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Reclamation extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'fecha',
-        'tipo_documento',
-        'numero_documento',
-        'nombre_completo',
+        'nombreConsumidor',
         'domicilio',
-        'correo',
+        'documentoIdentidad',
         'telefono',
-        'bien_contratado',
-        'descripcion',
-        'monto_reclamado',
-        'tipo_reclamo',
+        'correo',
+        'productoServicio',
+        'tipo',
         'detalle',
         'pedido',
-        'observaciones',
-        'destinatario',
     ];
 }
