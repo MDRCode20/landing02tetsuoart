@@ -39,7 +39,7 @@ useEffect(() => {
               { name: "Inicio", id: "#inicio" },
               { name: "Servicios", id: "#servicios" },
               { name: "Proyectos", id: "#proyectos" },
-              { name: "Libro de Reclamaciones", id: "#libro-reclamaciones" },
+              { name: "Testimonios", id: "#testimonios" },
               { name: "Contacto", id: "#contacto" },
             ].map((link, i) => (
               <motion.li

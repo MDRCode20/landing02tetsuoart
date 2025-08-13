@@ -15,7 +15,6 @@ class ReclamationController extends Controller
             'telefono' => 'nullable|string|max:15',
             'correo' => 'nullable|email|max:255',
             'productoServicio' => 'required|string|max:255',
-            'montoReclamado' => 'nullable|numeric',
             'tipo' => 'required|string',
             'detalle' => 'required|string|min:9',
             'pedido' => 'required|string|min:9',

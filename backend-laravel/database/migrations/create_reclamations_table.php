@@ -15,8 +15,7 @@ return new class extends Migration {
         $table->string('telefono')->nullable();
         $table->string('correo')->nullable();
         $table->string('productoServicio');
-        $table->decimal('montoReclamado', 10, 2)->nullable();
-        $table->string('tipo'); // Reclamo_Asistido o Reclamo_Independiente
+        $table->string('tipo'); 
         $table->text('detalle');
         $table->text('pedido');
         $table->timestamps();

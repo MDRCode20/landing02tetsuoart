@@ -92,7 +92,7 @@ function ReclamationForm() {
     if (!validarFormulario()) return;
 
     try {
-      const res = await fetch('http://localhost:5000/api/reclamo', {
+      const res = await fetch('http://localhost:8000/api/reclamo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -106,7 +106,6 @@ function ReclamationForm() {
         telefono: '',
         correo: '',
         productoServicio: '',
-        montoReclamado: '',
         tipo: 'Reclamo',
         detalle: '',
         pedido: '',
@@ -124,7 +123,7 @@ function ReclamationForm() {
     { name: 'telefono', icon: <FiPhone />, placeholder: 'Teléfono', required: false },
     { name: 'correo', icon: <FiMail />, placeholder: 'Correo electrónico', type: 'email', required: false },
     { name: 'productoServicio', icon: <FiEdit />, placeholder: 'Producto o servicio contratado', required: true },
-    { name: 'montoReclamado', icon: <FiDollarSign />, placeholder: 'Monto reclamado (opcional)', type: 'number', required: false },
+ 
   ];
 
   return (
