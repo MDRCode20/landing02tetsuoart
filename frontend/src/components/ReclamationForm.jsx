@@ -24,7 +24,6 @@ function ReclamationForm() {
     telefono: '',
     correo: '',
     productoServicio: '',
-    montoReclamado: '',
     tipo: 'Reclamo',
     detalle: '',
     pedido: '',
@@ -43,7 +42,6 @@ function ReclamationForm() {
       telefono,
       correo,
       productoServicio,
-      montoReclamado,
       detalle,
       pedido,
     } = form;
@@ -66,10 +64,7 @@ function ReclamationForm() {
         cond: correo && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(correo),
         msg: 'Correo electrónico inválido.',
       },
-      {
-        cond: montoReclamado && (isNaN(montoReclamado) || Number(montoReclamado) < 0),
-        msg: 'El monto debe ser un número positivo.',
-      },
+   
       { cond: !productoServicio.trim(), msg: 'Especifica el producto o servicio.' },
       { cond: !detalle.trim(), msg: 'El detalle del reclamo es obligatorio.' },
       { cond: detalle.trim().length < 9, msg: 'El detalle debe tener al menos 9 caracteres.' },
@@ -92,9 +87,12 @@ function ReclamationForm() {
     if (!validarFormulario()) return;
 
     try {
-      const res = await fetch('http://localhost:8000/api/reclamo', {
+      const res = await fetch('http://localhost:8000/api/reclamaciones', { 
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      headers: {
+       'Content-Type': 'application/json',
+       'Accept': 'application/json', // importante para Laravel
+  },
         body: JSON.stringify(form),
       });
       const data = await res.json();
@@ -145,7 +143,7 @@ function ReclamationForm() {
     </div>
 
     {/* Bloque 1 */}
-    <div className="space-y-4">
+    <div className="space-y-6">
       {fields
         .filter(field => field.name !== "tipo" && field.name !== "detalle" && field.name !== "pedido")
         .map((field, index) => (
@@ -176,7 +174,7 @@ function ReclamationForm() {
     </div>
 
     {/* Bloque 2 */}
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Tipo */}
       <div className="text-left">
         <label className="block mb-2 text-sm font-semibold text-white">
@@ -187,7 +185,7 @@ function ReclamationForm() {
           value={form.tipo}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="w-full px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-lg text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-gray-300"
         >
     <option className="bg-black rounded-2xl text-gray-400">Seleccione...</option>
     <option className="bg-black rounded-2xl text-gray-400">Reclamo Asistido</option>
@@ -197,7 +195,7 @@ function ReclamationForm() {
 
       {/* Detalle */}
       <div className="text-left">
-        <label className="block mb-2 text-sm font-semibold text-white">
+        <label className="block mb-1 text-sm font-semibold text-white">
           Detalle
         </label>
         <textarea
@@ -213,7 +211,7 @@ function ReclamationForm() {
 
       {/* Pedido */}
       <div className="text-left">
-        <label className="block mb-2 text-sm font-semibold text-white">
+        <label className="block mb-1 text-sm font-semibold text-white">
           Pedido
         </label>
         <textarea

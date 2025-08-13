@@ -11,7 +11,6 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // ✅ Verificar token
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("No autorizado");
@@ -25,7 +24,7 @@ const AdminPanel = () => {
           axios.get("http://localhost:8000/api/contactos", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:8000/api/reclamos", {
+          axios.get("http://localhost:8000/api/reclamaciones", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -33,6 +32,7 @@ const AdminPanel = () => {
         setContactos(resContactos.data);
         setReclamos(resReclamos.data);
       } catch (error) {
+        console.error(error);
         toast.error("Error al cargar datos");
         if (error.response?.status === 401) {
           localStorage.removeItem("token");
@@ -73,16 +73,9 @@ const AdminPanel = () => {
             <tbody>
               {contactos.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-700">
-                  <td className="border border-gray-600 px-4 py-2">{c.nombre}</td>
-                  <td className="border border-gray-600 px-4 py-2">
-                    {/* ✅ Solo mostrar parcialmente el email */}
-                    {c.email.replace(/(.{3}).+(@.+)/, "$1***$2")}
-                  </td>
-                  <td className="border border-gray-600 px-4 py-2">
-                    {c.mensaje.length > 50
-                      ? c.mensaje.substring(0, 50) + "..."
-                      : c.mensaje}
-                  </td>
+                  <td className="border border-gray-600 px-4 py-2">{c.name}</td>
+                 <td className="border border-gray-600 px-4 py-2">{c.email}</td>
+                 <td className="border border-gray-600 px-4 py-2">{c.message}</td>
                 </tr>
               ))}
             </tbody>
@@ -98,8 +91,15 @@ const AdminPanel = () => {
             <thead>
               <tr className="bg-gray-800">
                 <th className="border border-gray-600 px-4 py-2">ID</th>
-                <th className="border border-gray-600 px-4 py-2">Usuario</th>
-                <th className="border border-gray-600 px-4 py-2">Descripción</th>
+                <th className="border border-gray-600 px-4 py-2">Nombre Consumidor</th>
+                    <th className="border border-gray-600 px-4 py-2">Domicilio</th>
+                        <th className="border border-gray-600 px-4 py-2">Documento de Identidad</th>
+                            <th className="border border-gray-600 px-4 py-2">Telefono</th>
+                            <th className="border border-gray-600 px-4 py-2">Correo</th>
+                <th className="border border-gray-600 px-4 py-2">Producto / Servicio</th>
+                <th className="border border-gray-600 px-4 py-2">Tipo</th>
+                <th className="border border-gray-600 px-4 py-2">Detalle</th>
+                <th className="border border-gray-600 px-4 py-2">Pedido</th>
                 <th className="border border-gray-600 px-4 py-2">Fecha</th>
               </tr>
             </thead>
@@ -107,16 +107,25 @@ const AdminPanel = () => {
               {reclamos.map((r) => (
                 <tr key={r.id} className="hover:bg-gray-700">
                   <td className="border border-gray-600 px-4 py-2">{r.id}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r.nombreConsumidor}</td>
+                      <td className="border border-gray-600 px-4 py-2">{r.domicilio}</td>
+                         <td className="border border-gray-600 px-4 py-2">{r.documentoIdentidad}</td>
+                               <td className="border border-gray-600 px-4 py-2">{r.telefono}</td>
+                                 <td className="border border-gray-600 px-4 py-2">{r.correo}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r.productoServicio}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r.tipo}</td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {r.usuario.replace(/(.{3}).+/, "$1***")}
+                    {r.detalle?.length > 50
+                      ? r.detalle.substring(0, 50) + "..."
+                      : r.detalle}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {r.descripcion.length > 50
-                      ? r.descripcion.substring(0, 50) + "..."
-                      : r.descripcion}
+                    {r.pedido?.length > 50
+                      ? r.pedido.substring(0, 50) + "..."
+                      : r.pedido}
                   </td>
                   <td className="border border-gray-600 px-4 py-2">
-                    {new Date(r.fecha).toLocaleDateString()}
+                    {new Date(r.created_at).toLocaleDateString()}
                   </td>
                 </tr>
               ))}

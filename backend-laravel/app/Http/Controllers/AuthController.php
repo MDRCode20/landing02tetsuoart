@@ -21,9 +21,13 @@ class AuthController extends Controller
             return response()->json(['error' => 'Credenciales incorrectas'], 401);
         }
 
+        // 🔹 Generar un token de acceso
+        $token = $admin->createToken('admin_token')->plainTextToken;
+
         return response()->json([
             'message' => 'Login exitoso',
             'admin' => $admin,
+            'token' => $token
         ]);
     }
 }

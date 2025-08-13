@@ -22,29 +22,20 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
   try {
-const response = await axios.post(
-  "http://localhost:8000/api/login",
-  formData
-);
-
-  toast.success("¡Inicio de sesión exitoso!");
-  
-      // ⬅️ 3. Guardar token
-      localStorage.setItem("token", response.data.token);
-
-      // ⬅️ 4. Redirigir al panel
-      navigate("/admin");
-    } catch (error) {
-      toast.error("Error al iniciar sesión");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+    const { data } = await axios.post("http://localhost:8000/api/login", formData);
+    localStorage.setItem("token", data.token);
+    toast.success("¡Inicio de sesión exitoso!");
+    navigate("/admin");
+  } catch (error) {
+    toast.error(error.response?.data?.error || "Error al iniciar sesión");
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-black text-center relative overflow-hidden">
       {/* Luces de fondo */}

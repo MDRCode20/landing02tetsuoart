@@ -27,4 +27,17 @@ class ReclamationController extends Controller
             'reclamacion' => $reclamation
         ], 201);
     }
+
+    public function index()
+    {
+        return response()->json(Reclamation::all());
+    }
+
+    public function destroy($id)
+    {
+        $reclamation = Reclamation::findOrFail($id);
+        $reclamation->delete();
+
+        return response()->json(['message' => 'Reclamación eliminada']);
+    }
 }
