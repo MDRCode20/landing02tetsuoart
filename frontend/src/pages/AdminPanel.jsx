@@ -68,14 +68,16 @@ const AdminPanel = () => {
                 <th className="border border-gray-600 px-4 py-2">Nombre</th>
                 <th className="border border-gray-600 px-4 py-2">Correo</th>
                 <th className="border border-gray-600 px-4 py-2">Mensaje</th>
+                  <th className="border border-gray-600 px-4 py-2">Estado</th>
               </tr>
             </thead>
             <tbody>
               {contactos.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-700">
-                  <td className="border border-gray-600 px-4 py-2">{c.name}</td>
+                  <td className="border border-gray-600 px-4 py-2">{c.nombre}</td>
                  <td className="border border-gray-600 px-4 py-2">{c.email}</td>
-                 <td className="border border-gray-600 px-4 py-2">{c.message}</td>
+                 <td className="border border-gray-600 px-4 py-2">{c.mensaje}</td>
+                  <td className="border border-gray-600 px-4 py-2">{c.estado}</td>
                 </tr>
               ))}
             </tbody>
@@ -101,6 +103,7 @@ const AdminPanel = () => {
                 <th className="border border-gray-600 px-4 py-2">Detalle</th>
                 <th className="border border-gray-600 px-4 py-2">Pedido</th>
                 <th className="border border-gray-600 px-4 py-2">Fecha</th>
+                    <th className="border border-gray-600 px-4 py-2">Estado</th>
               </tr>
             </thead>
             <tbody>
@@ -127,6 +130,7 @@ const AdminPanel = () => {
                   <td className="border border-gray-600 px-4 py-2">
                     {new Date(r.created_at).toLocaleDateString()}
                   </td>
+                      <td className="border border-gray-600 px-4 py-2">{r.estado}</td>
                 </tr>
               ))}
             </tbody>

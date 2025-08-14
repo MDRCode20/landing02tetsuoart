@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('tipo');
             $table->text('detalle');
             $table->text('pedido');
+            $table->string('estado', 50)->default('Pendiente'); // Nuevo campo estado
             $table->timestamps();
         });
     }

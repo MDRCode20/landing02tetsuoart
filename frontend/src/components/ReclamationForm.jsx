@@ -29,6 +29,8 @@ function ReclamationForm() {
     pedido: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -84,6 +86,12 @@ function ReclamationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+      if (isSubmitting) {
+      toast.warning("El formulario ya se está enviando...");
+      return;
+    }
+
+    setIsSubmitting(true);
     if (!validarFormulario()) return;
 
     try {
@@ -111,6 +119,8 @@ function ReclamationForm() {
     } catch (error) {
       console.error(error);
       toast.error('Error al enviar el reclamo');
+    }finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -229,11 +239,16 @@ function ReclamationForm() {
     <div className="md:col-span-2">
       <motion.button
         type="submit"
-        className="relative w-full overflow-hidden bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded-2xl shadow-lg transition-all duration-300"
-        whileHover={{ scale: 1.02 }}
+        className={`relative w-full overflow-hidden bg-black hover:bg-gray-800 text-white font-semibold py-3 rounded-2xl shadow-lg transition-all duration-300 ${
+              isSubmitting
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-black text-white"
+        }`}
+        whileHover={!isSubmitting ? "hover" : ""}
         whileTap={{ scale: 0.98 }}
-      >
-        Enviar Reclamo
+         disabled={isSubmitting}
+     >
+ {isSubmitting ? "Enviando..." : "Enviar"}
       </motion.button>
     </div>
 

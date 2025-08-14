@@ -19,5 +19,6 @@ class Reclamation extends Model
         'tipo',
         'detalle',
         'pedido',
+        'estado',
     ];
 }

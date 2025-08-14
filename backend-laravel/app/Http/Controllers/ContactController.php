@@ -11,20 +11,22 @@ class ContactController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'correo' => 'required|email|max:255',
+            'email'  => 'required|email|max:255',
             'mensaje' => 'required|string',
         ]);
 
-        Contact::create([
-            'name' => $validated['nombre'],
-            'email' => $validated['correo'],
-            'message' => $validated['mensaje'],
-            'estado' => 'Pendiente', // valor por defecto
+        $contact = Contact::create([
+            'nombre' => $validated['nombre'],
+            'email'  => $validated['email'],
+            'mensaje' => $validated['mensaje'],
+            'estado' => 'Pendiente',
         ]);
 
-        return response()->json(['message' => 'Contacto guardado correctamente'], 201);
+        return response()->json([
+            'message' => 'Contacto guardado correctamente',
+            'data' => $contact
+        ], 201);
     }
-
     // Listar todos los contactos
     public function index()
     {

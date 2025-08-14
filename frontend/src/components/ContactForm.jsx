@@ -6,7 +6,7 @@ import { FiUser, FiMail, FiEdit } from "react-icons/fi";
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     nombre: "",
-    correo: "",
+    email: "",
     mensaje: "",
   });
 
@@ -30,13 +30,15 @@ const ContactForm = () => {
     try {
       const response = await fetch("http://localhost:8000/api/contacto", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+               'Accept': 'application/json', // importante para Laravel
+         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         toast.success("¡Mensaje enviado con éxito!");
-        setFormData({ nombre: "", correo: "", mensaje: "" });
+        setFormData({ nombre: "", email: "", mensaje: "" });
       } else {
         toast.error("Ocurrió un error al enviar el mensaje");
       }
@@ -90,8 +92,8 @@ const ContactForm = () => {
           <div className="relative">
             <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 text-lg pointer-events-none" />
             <motion.input
-              name="correo"
-              value={formData.correo}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               whileFocus={{ scale: 1.01 }}
               type="email"
