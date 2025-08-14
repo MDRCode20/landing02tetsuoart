@@ -19,12 +19,13 @@ class ContactController extends Controller
             'name' => $validated['nombre'],
             'email' => $validated['correo'],
             'message' => $validated['mensaje'],
+            'estado' => 'Pendiente', // valor por defecto
         ]);
 
         return response()->json(['message' => 'Contacto guardado correctamente'], 201);
     }
 
-    // Listar todos los contactos (solo para administrador)
+    // Listar todos los contactos
     public function index()
     {
         $contacts = Contact::orderBy('created_at', 'desc')->get();
@@ -37,5 +38,19 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         $contact->delete();
         return response()->json(['message' => 'Contacto eliminado correctamente']);
+    }
+
+    // Actualizar estado
+    public function updateEstado(Request $request, $id)
+    {
+        $request->validate([
+            'estado' => 'required|in:Pendiente,En proceso,Contactado'
+        ]);
+
+        $contact = Contact::findOrFail($id);
+        $contact->estado = $request->estado;
+        $contact->save();
+
+        return response()->json(['message' => 'Estado actualizado']);
     }
 }

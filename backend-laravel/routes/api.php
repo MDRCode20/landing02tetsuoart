@@ -11,6 +11,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Contactos
 Route::post('/contacto', [ContactController::class, 'store']);
 Route::get('/contactos', [ContactController::class, 'index'])->middleware('auth:sanctum');
+Route::put('/contactos/{id}/estado', [ContactController::class, 'updateEstado']);
 
 // Reclamaciones públicas (formulario)
 Route::post('/reclamaciones', [ReclamationController::class, 'store']);
