@@ -1,4 +1,3 @@
-// src/pages/AdminPanel.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,8 +9,61 @@ const AdminPanel = () => {
   const [reclamos, setReclamos] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    // 1️⃣ Eliminar token
+    localStorage.removeItem("token");
+
+    // 2️⃣ Redirigir a inicio
+    navigate("/", { replace: true });
+
+    // 3️⃣ Evitar retroceso
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      navigate("/", { replace: true });
+    };
+  };
+
+  const updateEstadoContact = async (id, nuevoEstado) => {
+    try {
+      await axios.patch(
+        `http://localhost:8000/api/contactos/${id}/estado`,
+        { estado: nuevoEstado },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setContactos((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, estado: nuevoEstado } : c))
+      );
+
+      toast.success("Estado del contacto actualizado");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al actualizar estado");
+    }
+  };
+
+  const updateEstadoReclamo = async (id, nuevoEstado) => {
+    try {
+      await axios.patch(
+        `http://localhost:8000/api/reclamaciones/${id}/estado`,
+        { estado: nuevoEstado },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setReclamos((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, estado: nuevoEstado } : r))
+      );
+
+      toast.success("Estado del reclamo actualizado");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al actualizar estado");
+    }
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       toast.error("No autorizado");
       navigate("/login");
@@ -44,7 +96,7 @@ const AdminPanel = () => {
     };
 
     fetchData();
-  }, [navigate]);
+  }, [navigate, token]);
 
   if (loading) {
     return (
@@ -55,29 +107,58 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-3xl font-bold mb-6">Panel de Administración</h1>
+    <div className="min-h-screen bg-black text-white p-8 z-150">
+      {/* Botón cerrar sesión y volver */}
+      <div className="mb-6">
+        <button
+          onClick={handleLogout}
+          className="bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200 transition"
+        >
+          ⬅ Cerrar sesión y volver
+        </button>
+      </div>
+      <h1 className="text-2xl font-bold mb-5 tracking-wide">
+        Panel de Administración
+      </h1>
 
       {/* Tabla de Contactos */}
-      <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-3">Mensajes de Contacto</h2>
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse border border-gray-600">
+      <section className="mb-5 bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
+        <h2 className="text-xl font-semibold mb-4">Mensajes de Contacto</h2>
+        <div className="overflow-x-auto flex-1 max-h-[150px] ">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-800">
-                <th className="border border-gray-600 px-4 py-2">Nombre</th>
-                <th className="border border-gray-600 px-4 py-2">Correo</th>
-                <th className="border border-gray-600 px-4 py-2">Mensaje</th>
-                  <th className="border border-gray-600 px-4 py-2">Estado</th>
+              <tr className="border-b border-white/10">
+                <th className="px-4 py-3">ID</th>
+                <th className="px-4 py-3">Nombre</th>
+                <th className="px-4 py-3">Correo</th>
+                <th className="px-4 py-3">Mensaje</th>
+                <th className="px-4 py-3">Estado</th>
+                <th className="px-4 py-3">Fecha_Creada</th>
+                <th className="px-4 py-3">Fecha_Act</th>
               </tr>
             </thead>
             <tbody>
               {contactos.map((c) => (
-                <tr key={c.id} className="hover:bg-gray-700">
-                  <td className="border border-gray-600 px-4 py-2">{c.nombre}</td>
-                 <td className="border border-gray-600 px-4 py-2">{c.email}</td>
-                 <td className="border border-gray-600 px-4 py-2">{c.mensaje}</td>
-                  <td className="border border-gray-600 px-4 py-2">{c.estado}</td>
+                <tr key={c.id} className="hover:bg-white/10 transition-colors">
+                  <td className="px-4 py-3">{c.id}</td>
+                  <td className="px-4 py-3">{c.nombre}</td>
+                  <td className="px-4 py-3">{c.email}</td>
+                  <td className="px-4 py-3">{c.mensaje}</td>
+                  <td className="px-4 py-3">
+                    <select
+                      className="bg-black border border-white/20 text-white rounded-lg px-2 py-1"
+                      value={c.estado}
+                      onChange={(e) =>
+                        updateEstadoContact(c.id, e.target.value)
+                      }
+                    >
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="En proceso">En proceso</option>
+                      <option value="Contactado">Contactado</option>
+                    </select>
+                  </td>
+                  <td className="px-4 py-3">{c.created_at}</td>
+                  <td className="px-4 py-3">{c.updated_at}</td>
                 </tr>
               ))}
             </tbody>
@@ -86,57 +167,63 @@ const AdminPanel = () => {
       </section>
 
       {/* Tabla de Reclamos */}
-      <section>
-        <h2 className="text-xl font-semibold mb-3">Reclamos</h2>
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse border border-gray-600">
+      <section className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
+        <h2 className="text-xl font-semibold mb-4">Reclamos</h2>
+        <div className="flex-1 max-h-[200px] overflow-y-auto">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-800">
-                <th className="border border-gray-600 px-4 py-2">ID</th>
-                <th className="border border-gray-600 px-4 py-2">Nombre Consumidor</th>
-                    <th className="border border-gray-600 px-4 py-2">Domicilio</th>
-                        <th className="border border-gray-600 px-4 py-2">Documento de Identidad</th>
-                            <th className="border border-gray-600 px-4 py-2">Telefono</th>
-                            <th className="border border-gray-600 px-4 py-2">Correo</th>
-                <th className="border border-gray-600 px-4 py-2">Producto / Servicio</th>
-                <th className="border border-gray-600 px-4 py-2">Tipo</th>
-                <th className="border border-gray-600 px-4 py-2">Detalle</th>
-                <th className="border border-gray-600 px-4 py-2">Pedido</th>
-                <th className="border border-gray-600 px-4 py-2">Fecha</th>
-                    <th className="border border-gray-600 px-4 py-2">Estado</th>
+              <tr className="border-b border-white/10">
+                <th className="px-4 py-3">ID</th>
+                <th className="px-4 py-3">Nombre Consumidor</th>
+                <th className="px-4 py-3">Domicilio</th>
+                <th className="px-4 py-3">DNI O CNE</th>
+                <th className="px-4 py-3">Teléfono</th>
+                <th className="px-4 py-3">Correo</th>
+                <th className="px-4 py-3">Producto-Servicio</th>
+                <th className="px-4 py-3">Tipo</th>
+                <th className="px-4 py-3">Detalle</th>
+                <th className="px-4 py-3">Pedido</th>
+                <th className="px-4 py-3">Estado</th>
+                <th className="px-4 py-3">Fecha_Creada</th>
+                <th className="px-4 py-3">Fecha_Act</th>
               </tr>
             </thead>
             <tbody>
               {reclamos.map((r) => (
-                <tr key={r.id} className="hover:bg-gray-700">
-                  <td className="border border-gray-600 px-4 py-2">{r.id}</td>
-                  <td className="border border-gray-600 px-4 py-2">{r.nombreConsumidor}</td>
-                      <td className="border border-gray-600 px-4 py-2">{r.domicilio}</td>
-                         <td className="border border-gray-600 px-4 py-2">{r.documentoIdentidad}</td>
-                               <td className="border border-gray-600 px-4 py-2">{r.telefono}</td>
-                                 <td className="border border-gray-600 px-4 py-2">{r.correo}</td>
-                  <td className="border border-gray-600 px-4 py-2">{r.productoServicio}</td>
-                  <td className="border border-gray-600 px-4 py-2">{r.tipo}</td>
-                  <td className="border border-gray-600 px-4 py-2">
-                    {r.detalle?.length > 50
-                      ? r.detalle.substring(0, 50) + "..."
-                      : r.detalle}
+                <tr key={r.id} className="hover:bg-white/10 transition-colors">
+                  <td className="px-4 py-3">{r.id}</td>
+                  <td className="px-4 py-3">{r.nombreConsumidor}</td>
+                     <td className="px-4 py-3">{r.domicilio}</td>
+                        <td className="px-4 py-3">{r.documentoIdentidad}</td>
+                           <td className="px-4 py-3">{r.telefono}</td>
+                              <td className="px-4 py-3">{r.correo}</td>
+                                <td className="px-4 py-3">{r.productoServicio}</td>
+                                  <td className="px-4 py-3">{r.tipo}</td>
+                                   <td className="px-4 py-3">{r.detalle}</td>
+                                    <td className="px-4 py-3">{r.pedido}</td>
+                  <td className="px-4 py-3">
+                    <select
+                      className="bg-black border border-white/20 text-white rounded-lg px-2 py-1"
+                      value={r.estado}
+                      onChange={(e) =>
+                        updateEstadoReclamo(r.id, e.target.value)
+                      }
+                    >
+                      <option value="pendiente">Pendiente</option>
+                      <option value="revisado">Revisado</option>
+                      <option value="resuelto">Resuelto</option>
+                    </select>
                   </td>
-                  <td className="border border-gray-600 px-4 py-2">
-                    {r.pedido?.length > 50
-                      ? r.pedido.substring(0, 50) + "..."
-                      : r.pedido}
-                  </td>
-                  <td className="border border-gray-600 px-4 py-2">
-                    {new Date(r.created_at).toLocaleDateString()}
-                  </td>
-                      <td className="border border-gray-600 px-4 py-2">{r.estado}</td>
+                          <td className="px-4 py-3">{r.created_at}</td>
+                                  <td className="px-4 py-3">{r.created_at}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </section>
+
+      
     </div>
   );
 };

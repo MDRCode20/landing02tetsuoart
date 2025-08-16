@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 
+
 class ContactController extends Controller
 {
     // Guardar un contacto
@@ -43,15 +44,15 @@ class ContactController extends Controller
     }
 
     // Actualizar estado
-    public function updateEstado(Request $request, $id)
+    public function updateEstadoContact(Request $request, $id)
     {
         $request->validate([
             'estado' => 'required|in:Pendiente,En proceso,Contactado'
         ]);
 
-        $contact = Contact::findOrFail($id);
-        $contact->estado = $request->estado;
-        $contact->save();
+        $contacts = Contact::findOrFail($id);
+        $contacts->estado = $request->estado;
+        $contacts->save();
 
         return response()->json(['message' => 'Estado actualizado']);
     }

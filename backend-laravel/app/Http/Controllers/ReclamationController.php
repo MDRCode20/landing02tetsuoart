@@ -48,7 +48,7 @@ class ReclamationController extends Controller
         return response()->json(['message' => 'Reclamación eliminada']);
     }
 
-    public function updateEstado(Request $request, $id)
+    public function updateEstadoReclamo(Request $request, $id)
     {
         $request->validate([
             'estado' => 'required|string|in:pendiente,revisado,resuelto'

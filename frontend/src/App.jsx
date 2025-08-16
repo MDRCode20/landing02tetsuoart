@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import AnimatedSquare from "./components/AnimatedSquare";
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -21,40 +20,50 @@ function App() {
   return (
     <Router>
       <div className="relative">
-        {/* <AnimatedSquare /> */}
+        <Toaster position="top-right" />
 
-        <Header />
-        <main className="relative z-10">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
+        <Routes>
+          {/* Página principal con Header y Footer */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <main className="relative z-10">
                   <Hero />
                   <Services />
                   <About />
                   <Proyectos />
                   <Testimonials />
                   <ContactForm />
-                </>
-              }
-            />
+                </main>
+                <Footer />
+              </>
+            }
+          />
 
-            <Route path="/login" element={<Login />} />
+          {/* Login con Header y Footer */}
+          <Route
+            path="/login"
+            element={
+              <>
+              
+                <Login />
+              
+              </>
+            }
+          />
 
-            {/* 🔹 Ruta protegida para el panel */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminPanel />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </main>
-        <Toaster position="top-right" />
-        <Footer />
+          {/* AdminPanel SIN Header y SIN Footer */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );
