@@ -165,7 +165,7 @@ const filteredReclamos = reclamos.filter((r) => {
       {/* 🔎 Barra de filtros */}
 <div className="flex gap-3 bg-white/10 p-3 rounded-lg">
  <h1 className="text-2xl font-bold mb-5 tracking-wide">
-        Panel de Administración
+        Panel de Administración 
       </h1>
   <input
     type="text"
