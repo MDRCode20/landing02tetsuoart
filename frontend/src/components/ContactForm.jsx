@@ -85,6 +85,7 @@ const ContactForm = () => {
               placeholder="Tu nombre completo"
               className="w-full pl-12 pr-4 bg-white/10 backdrop-blur-lg border border-white/20 placeholder-white/60 text-white p-3 rounded-2xl shadow-inner focus:outline-none focus:ring-2 focus:ring-white/40 transition duration-300"
               required
+              
             />
           </div>
 

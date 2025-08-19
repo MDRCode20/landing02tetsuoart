@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
-import { es } from "date-fns/locale"; // 🇪🇸 meses en español
+import { es, id } from "date-fns/locale"; // 🇪🇸 meses en español
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -11,14 +11,15 @@ const AdminPanel = () => {
   const [reclamos, setReclamos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-// 🔎 Filtros
-const [search, setSearch] = useState("");
-const [filtroMes, setFiltroMes] = useState(""); // YYYY-MM
-const [filtroAnio, setFiltroAnio] = useState(""); // solo año
-
-
+  // 🔎 Filtros
+  const [search, setSearch] = useState("");
+  const [filtroMes, setFiltroMes] = useState("");
+  const [filtroAnio, setFiltroAnio] = useState("");
 
   const token = localStorage.getItem("token");
+
+  // ⚡ Estado para confirmar cambios
+  const [confirmData, setConfirmData] = useState(null);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -29,10 +30,11 @@ const [filtroAnio, setFiltroAnio] = useState(""); // solo año
     };
   };
 
-  // 👉 función para formatear fechas
   const formatDate = (dateString) => {
     if (!dateString) return "-";
-    return format(new Date(dateString), "dd 'de' MMMM yyyy, HH:mm", { locale: es });
+    return format(new Date(dateString), "dd 'de' MMMM yyyy, HH:mm", {
+      locale: es,
+    });
   };
 
   const updateEstadoContact = async (id, nuevoEstado) => {
@@ -110,46 +112,58 @@ const [filtroAnio, setFiltroAnio] = useState(""); // solo año
       </div>
     );
   }
-// ✅ Filtrado de contactos
-const filteredContactos = contactos.filter((c) => {
-  const matchesSearch =
-    c.nombre?.toLowerCase().includes(search.toLowerCase()) ||
-    c.email?.toLowerCase().includes(search.toLowerCase()) ||
-    c.mensaje?.toLowerCase().includes(search.toLowerCase());
 
-  if (!c.created_at) return matchesSearch; // evita error si no hay fecha
+  // ✅ Filtrado de contactos
+  const filteredContactos = contactos.filter((c) => {
+    const matchesSearch =
+      c.nombre?.toLowerCase().includes(search.toLowerCase()) ||
+      c.email?.toLowerCase().includes(search.toLowerCase()) ||
+      c.mensaje?.toLowerCase().includes(search.toLowerCase());
 
-  const created = new Date(c.created_at);
-  const mes = String(created.getMonth() + 1).padStart(2, "0"); // "01" a "12"
-  const anio = created.getFullYear().toString();
+    if (!c.created_at) return matchesSearch;
 
-  const matchesMes = !filtroMes || mes === filtroMes;
-  const matchesAnio = !filtroAnio || anio === filtroAnio;
+    const created = new Date(c.created_at);
+    const mes = String(created.getMonth() + 1).padStart(2, "0");
+    const anio = created.getFullYear().toString();
 
-  return matchesSearch && matchesMes && matchesAnio;
-});
+    const matchesMes = !filtroMes || mes === filtroMes;
+    const matchesAnio = !filtroAnio || anio === filtroAnio;
 
-// ✅ Filtrado de reclamos
-const filteredReclamos = reclamos.filter((r) => {
-  const matchesSearch =
-    r.nombreConsumidor?.toLowerCase().includes(search.toLowerCase()) ||
-    r.correo?.toLowerCase().includes(search.toLowerCase()) ||
-    r.detalle?.toLowerCase().includes(search.toLowerCase()) ||
-    r.productoServicio?.toLowerCase().includes(search.toLowerCase());
+    return matchesSearch && matchesMes && matchesAnio;
+  });
 
-  if (!r.created_at) return matchesSearch; // evita error si no hay fecha
+  // ✅ Filtrado de reclamos
+  const filteredReclamos = reclamos.filter((r) => {
+    const matchesSearch =
+      r.nombreConsumidor?.toLowerCase().includes(search.toLowerCase()) ||
+      r.correo?.toLowerCase().includes(search.toLowerCase()) ||
+      r.detalle?.toLowerCase().includes(search.toLowerCase()) ||
+      r.productoServicio?.toLowerCase().includes(search.toLowerCase());
 
-  const created = new Date(r.created_at);
-  const mes = String(created.getMonth() + 1).padStart(2, "0"); // "01" a "12"
-  const anio = created.getFullYear().toString();
+    if (!r.created_at) return matchesSearch;
 
-  const matchesMes = !filtroMes || mes === filtroMes;
-  const matchesAnio = !filtroAnio || anio === filtroAnio;
+    const created = new Date(r.created_at);
+    const mes = String(created.getMonth() + 1).padStart(2, "0");
+    const anio = created.getFullYear().toString();
 
-  return matchesSearch && matchesMes && matchesAnio;
-});
+    const matchesMes = !filtroMes || mes === filtroMes;
+    const matchesAnio = !filtroAnio || anio === filtroAnio;
 
+    return matchesSearch && matchesMes && matchesAnio;
+  });
 
+  // ✅ Confirmación antes de aplicar cambios
+  const handleConfirm = async () => {
+    if (!confirmData) return;
+    const { tipo, id, nuevoEstado } = confirmData;
+
+    if (tipo === "contacto") {
+      await updateEstadoContact(id, nuevoEstado);
+    } else {
+      await updateEstadoReclamo(id, nuevoEstado);
+    }
+    setConfirmData(null);
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
@@ -161,56 +175,49 @@ const filteredReclamos = reclamos.filter((r) => {
         >
           ⬅ Cerrar sesión
         </button>
-
-      {/* 🔎 Barra de filtros */}
-<div className="flex gap-3 bg-white/10 p-3 rounded-lg">
- <h1 className="text-2xl font-bold mb-5 tracking-wide">
-        Panel de Administración 
-      </h1>
-  <input
-    type="text"
-    placeholder="Buscar por texto..."
-    className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
-
-  {/* Filtro por mes */}
-<select
-  className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-  value={filtroMes}
-  onChange={(e) => setFiltroMes(e.target.value)}
->
-  <option value="">Todos los meses</option>
-  <option value="01">Enero</option>
-  <option value="02">Febrero</option>
-  <option value="03">Marzo</option>
-  <option value="04">Abril</option>
-  <option value="05">Mayo</option>
-  <option value="06">Junio</option>
-  <option value="07">Julio</option>
-  <option value="08">Agosto</option>
-  <option value="09">Septiembre</option>
-  <option value="10">Octubre</option>
-  <option value="11">Noviembre</option>
-  <option value="12">Diciembre</option>
-</select>
-
-
-  {/* Filtro por año */}
-  <input
-    type="number"
-    placeholder="Año"
-    min="2000"
-    max="2100"
-    className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-    value={filtroAnio}
-    onChange={(e) => setFiltroAnio(e.target.value)}
-  />
-</div>
+ <h1 className="text-2xl font-bold mb-5 p-2 tracking-wide">
+            Panel de Administración
+          </h1>
+        {/* 🔎 Barra de filtros */}
+        <div className="flex gap-5 bg-white/10 p-3 rounded-lg">
+         
+          <input
+            type="text"
+            placeholder="Buscar por texto..."
+            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+            value={filtroMes}
+            onChange={(e) => setFiltroMes(e.target.value)}
+          >
+            <option value="">Todos los meses</option>
+            <option value="01">Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Año"
+            min="2000"
+            max="2100"
+            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+            value={filtroAnio}
+            onChange={(e) => setFiltroAnio(e.target.value)}
+          />
+        </div>
       </div>
-
-     
 
       {/* Tabla de Contactos */}
       <section className="mb-5 bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
@@ -240,7 +247,13 @@ const filteredReclamos = reclamos.filter((r) => {
                       className="bg-black border border-white/20 text-white rounded-lg px-2 py-1"
                       value={c.estado}
                       onChange={(e) =>
-                        updateEstadoContact(c.id, e.target.value)
+                        setConfirmData({
+                          tipo: "contacto",
+                          id: c.id,
+                          name:c.nombre,
+                          est_prev:c.estado,
+                          nuevoEstado: e.target.value,
+                        })
                       }
                     >
                       <option value="Pendiente">Pendiente</option>
@@ -248,7 +261,6 @@ const filteredReclamos = reclamos.filter((r) => {
                       <option value="Contactado">Contactado</option>
                     </select>
                   </td>
-                  {/* 👇 Fechas formateadas */}
                   <td className="px-4 py-3">{formatDate(c.created_at)}</td>
                   <td className="px-4 py-3">{formatDate(c.updated_at)}</td>
                 </tr>
@@ -261,7 +273,7 @@ const filteredReclamos = reclamos.filter((r) => {
       {/* Tabla de Reclamos */}
       <section className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
         <h2 className="text-xl font-semibold mb-4">Reclamos</h2>
-        <div className="flex-1 max-h-[200px] overflow-y-auto">
+        <div className="flex-1 max-h-[220px] overflow-y-auto">
           <table className="w-full text-left border-collapse">
             <thead className="sticky top-0 bg-black">
               <tr className="border-b border-white/10">
@@ -298,7 +310,13 @@ const filteredReclamos = reclamos.filter((r) => {
                       className="bg-black border border-white/20 text-white rounded-lg px-2 py-1"
                       value={r.estado}
                       onChange={(e) =>
-                        updateEstadoReclamo(r.id, e.target.value)
+                        setConfirmData({
+                          tipo: "reclamo",
+                          name:r.nombreConsumidor,
+                          id: r.id,
+                          est_prev:r.estado,
+                          nuevoEstado: e.target.value,
+                        })
                       }
                     >
                       <option value="pendiente">Pendiente</option>
@@ -306,7 +324,6 @@ const filteredReclamos = reclamos.filter((r) => {
                       <option value="resuelto">Resuelto</option>
                     </select>
                   </td>
-                  {/* 👇 Fechas formateadas */}
                   <td className="px-4 py-3">{formatDate(r.created_at)}</td>
                   <td className="px-4 py-3">{formatDate(r.updated_at)}</td>
                 </tr>
@@ -315,6 +332,35 @@ const filteredReclamos = reclamos.filter((r) => {
           </table>
         </div>
       </section>
+
+      {/* 🔔 Modal de confirmación */}
+      {confirmData && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white text-black p-6 rounded-2xl max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-bold mb-3">Confirmar acción</h3>
+            <p className="mb-4">
+              ¿Seguro que deseas cambiar el estado actual de  <span className="font-semibold">{confirmData.est_prev}</span> {" "}
+               a{" "}
+              <span className="font-semibold">{confirmData.nuevoEstado}</span>?
+              de <span className="font-semibold">{confirmData.name}</span>  con id <span className="font-semibold">{confirmData.id}</span> 
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setConfirmData(null)}
+                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleConfirm}
+                className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

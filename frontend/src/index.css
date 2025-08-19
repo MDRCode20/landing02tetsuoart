@@ -4,6 +4,10 @@
 @import "tailwindcss";
 @import "animate.css";
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Scrollbar personalizado */
 .scrollbar-thin {
   scrollbar-width: thin;
