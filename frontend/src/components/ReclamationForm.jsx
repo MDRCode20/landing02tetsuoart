@@ -9,6 +9,7 @@ import {
   FiEdit,
   FiDollarSign,
 } from 'react-icons/fi';
+import { X } from "lucide-react"; // 👈 Botón de cierre
 import toast, { Toaster } from 'react-hot-toast';
 
 const fadeInUp = {
@@ -16,7 +17,7 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-function ReclamationForm() {
+function ReclamationForm({ onClose }) {
   const [form, setForm] = useState({
     nombreConsumidor: '',
     domicilio: '',
@@ -145,6 +146,15 @@ function ReclamationForm() {
     animate="visible"
     className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-7xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-15 sm:p-10 relative z-10"
   >
+{/* Botón de cierre */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-5 right-6 text-gray-400 hover:text-white transition-colors"
+        >
+          <X size={26} strokeWidth={2.5} />
+        </button>
+
     {/* Título */}
     <div className="md:col-span-2">
       <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-1 tracking-wide text-center">

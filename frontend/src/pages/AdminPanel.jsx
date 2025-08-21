@@ -179,50 +179,69 @@ const AdminPanel = () => {
             Panel de Administración
           </h1>
         {/* 🔎 Barra de filtros */}
-        <div className="flex gap-5 bg-white/10 p-3 rounded-lg">
-         
-          <input
-            type="text"
-            placeholder="Buscar por texto..."
-            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <select
-            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-            value={filtroMes}
-            onChange={(e) => setFiltroMes(e.target.value)}
-          >
-            <option value="">Todos los meses</option>
-            <option value="01">Enero</option>
-            <option value="02">Febrero</option>
-            <option value="03">Marzo</option>
-            <option value="04">Abril</option>
-            <option value="05">Mayo</option>
-            <option value="06">Junio</option>
-            <option value="07">Julio</option>
-            <option value="08">Agosto</option>
-            <option value="09">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-          </select>
-          <input
-            type="number"
-            placeholder="Año"
-            min="2000"
-            max="2100"
-            className="px-3 py-2 rounded bg-black border border-white/20 text-white"
-            value={filtroAnio}
-            onChange={(e) => setFiltroAnio(e.target.value)}
-          />
-        </div>
+     <div className="bg-white/10 p-4 rounded-lg">
+  {/* 🔹 Texto arriba */}
+  <h3 className="text-white font-semibold mb-3">Filtrar por</h3>
+
+  <div className="flex gap-5 flex-wrap">
+    {/* 🔹 Buscar por texto */}
+    <div className="flex flex-col">
+      <label className="text-sm text-gray-300 mb-1">Nombre</label>
+      <input
+        type="text"
+        placeholder="Buscar por texto..."
+        className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+    </div>
+
+    {/* 🔹 Filtro por mes */}
+    <div className="flex flex-col">
+      <label className="text-sm text-gray-300 mb-1">Mes</label>
+      <select
+        className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+        value={filtroMes}
+        onChange={(e) => setFiltroMes(e.target.value)}
+      >
+        <option value="">Todos los meses</option>
+        <option value="01">Enero</option>
+        <option value="02">Febrero</option>
+        <option value="03">Marzo</option>
+        <option value="04">Abril</option>
+        <option value="05">Mayo</option>
+        <option value="06">Junio</option>
+        <option value="07">Julio</option>
+        <option value="08">Agosto</option>
+        <option value="09">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+      </select>
+    </div>
+
+    {/* 🔹 Filtro por año */}
+    <div className="flex flex-col">
+      <label className="text-sm text-gray-300 mb-1">Año</label>
+      <input
+        type="number"
+        placeholder="Año"
+        min="2000"
+        max="2100"
+        className="px-3 py-2 rounded bg-black border border-white/20 text-white"
+        value={filtroAnio}
+        onChange={(e) => setFiltroAnio(e.target.value)}
+      />
+    </div>
+  </div>
+</div>
+
       </div>
 
       {/* Tabla de Contactos */}
-      <section className="mb-5 bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
+      <section className="mb-4 bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
         <h2 className="text-xl font-semibold mb-4">Mensajes de Contacto</h2>
-        <div className="overflow-x-auto flex-1 max-h-[150px] overflow-y-scroll">
+        <div className="overflow-x-auto flex-1 max-h-[110px] overflow-y-scroll">
           <table className="w-full text-left border-collapse">
             <thead className="sticky top-0 bg-black">
               <tr className="border-b border-white/10">
@@ -273,7 +292,7 @@ const AdminPanel = () => {
       {/* Tabla de Reclamos */}
       <section className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 backdrop-blur">
         <h2 className="text-xl font-semibold mb-4">Reclamos</h2>
-        <div className="flex-1 max-h-[220px] overflow-y-auto">
+        <div className="flex-1 max-h-[200px] overflow-y-auto">
           <table className="w-full text-left border-collapse">
             <thead className="sticky top-0 bg-black">
               <tr className="border-b border-white/10">
