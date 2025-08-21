@@ -80,7 +80,7 @@ const Hero = () => {
               }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-black hover:text-white hover:text-white transition-colors duration-300"
+              className="inline-block bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-black hover:text-white  transition-colors duration-300"
             >
               Ver Servicios
             </motion.a>

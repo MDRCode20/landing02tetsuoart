@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
-import { es, id } from "date-fns/locale"; // 🇪🇸 meses en español
+import { es } from "date-fns/locale"; // 🇪🇸 meses en español
 
 const AdminPanel = () => {
   const navigate = useNavigate();

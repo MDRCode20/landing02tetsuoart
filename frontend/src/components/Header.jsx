@@ -172,7 +172,7 @@ const Header = () => {
               >
                 <a
                   href={item.href}
-                  className="block font-medium hover:text-gray-700 transition flex items-center"
+                  className="block font-medium hover:text-gray-700 transition items-center"
                   onClick={() => setMenuAbierto(false)}
                 >
                   <span className="mr-2">{iconos[item.nombre]}</span>
@@ -190,11 +190,11 @@ const Header = () => {
             >
               <Link
                 to="/login"
-                className="block font-medium hover:text-gray-700 transition flex items-center"
+                className="block font-medium hover:text-gray-700 transition  items-center"
                 onClick={() => setMenuAbierto(false)}
               >
                 <span className="mr-2">{iconos["Login"]}</span>
-                Login
+                Admin
               </Link>
             </motion.li>
           </ul>
