@@ -7,11 +7,10 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Scrollbar personalizado */
 .scrollbar-thin {
   scrollbar-width: thin;
 }
-/* Scrollbar para todos los navegadores modernos */
+
 ::-webkit-scrollbar {
   width: 50px;
 }
@@ -30,7 +29,6 @@ html {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
@@ -41,10 +39,6 @@ body {
   font-family: 'Inter', sans-serif;
  
 }
-
-
-
-
 
 @keyframes blink-text {
   0%, 50%, 100% {

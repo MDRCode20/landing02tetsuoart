@@ -15,7 +15,7 @@ const PoliticaPrivacidadModal = ({ onClose }) => {
                  overflow-y-auto max-h-[85vh] backdrop-blur-md
                  scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
     >
-      {/* Botón de cierre */}
+    
       <button
         onClick={onClose}
         className="absolute top-5 right-6 text-gray-400 hover:text-gray-400 transition-colors"
@@ -23,7 +23,7 @@ const PoliticaPrivacidadModal = ({ onClose }) => {
         <X size={26} strokeWidth={2.5} />
       </button>
 
-      {/* Contenido */}
+    
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -40,9 +40,9 @@ const PoliticaPrivacidadModal = ({ onClose }) => {
           información que nos proporcionas al utilizar nuestros servicios.
         </p>
 
-        {/* Dividido en dos bloques */}
+    
         <div className="grid gap-15 md:grid-cols-2 mb-7">
-          {/* Bloque 1 */}
+          
           <div className="space-y-6">
             <section>
               <h2 className="text-xl font-semibold text-white text-left mb-2">
@@ -83,7 +83,7 @@ const PoliticaPrivacidadModal = ({ onClose }) => {
             </section>
           </div>
 
-          {/* Bloque 2 */}
+      
           <div className="space-y-6">
             <section>
               <h2 className="text-xl font-semibold text-white text-left mb-2">

@@ -22,7 +22,7 @@ const Hero = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      {/* Overlay con fade-in */}
+   
       <motion.div
         className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60 z-0"
         initial={{ opacity: 0 }}
@@ -49,7 +49,7 @@ const Hero = () => {
             }}
             className="space-y-10 w-full max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-5xl xl:max-w-6xl px-0"
           >
-            {/* Título */}
+           
             <motion.h2
               variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
               transition={{ duration: 0.8 }}
@@ -58,7 +58,7 @@ const Hero = () => {
               Transformamos tu hogar en un espacio de ensueño
             </motion.h2>
 
-            {/* Párrafo */}
+            
             <motion.p
               variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0 } }}
               transition={{ duration: 0.8 }}
@@ -67,7 +67,7 @@ const Hero = () => {
               Remodelaciones personalizadas con estilo, calidad y detalle.
             </motion.p>
 
-            {/* Botón con rebote */}
+           
             <motion.a
               href="#servicios"
               initial={{ opacity: 0, scale: 0.8 }}

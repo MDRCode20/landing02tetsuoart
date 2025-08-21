@@ -5,7 +5,7 @@ import ReclamationForm from "./ReclamationForm";
 import PoliticaPrivacidadModal from "./PoliticaPrivacidad";
 
 const Footer = () => {
-  const [modalActivo, setModalActivo] = useState(null); // null | "politica" | "reclamo"
+  const [modalActivo, setModalActivo] = useState(null); 
 
   useEffect(() => {
     document.body.style.overflow = modalActivo ? "hidden" : "auto";
@@ -15,7 +15,7 @@ const Footer = () => {
   return (
     <footer className="bg-black text-white pt-16 pb-10 px-6">
       <div className="max-w-7xl mx-auto grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Columna 1 */}
+       
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -30,7 +30,7 @@ const Footer = () => {
           </p>
         </motion.div>
 
-        {/* Columna 2 */}
+       
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ const Footer = () => {
           </ul>
         </motion.div>
 
-        {/* Columna 3 */}
+       
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Footer inferior */}
+     
       <motion.div
         className="border-t border-white/20 mt-14 pt-5 text-sm text-center"
         initial={{ opacity: 0 }}
@@ -116,7 +116,7 @@ const Footer = () => {
           Diseño y desarrollo con ❤️ desde Perú
         </p>
 
-        {/* Renderizado condicional de modales */}
+        
         {modalActivo && (
           <div className="fixed inset-0 bg-gradient-to-b from-black to-gray-900 bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-50 overflow-auto">
             {/* Efectos de fondo */}
@@ -125,14 +125,14 @@ const Footer = () => {
               <div className="absolute bottom-10 right-10 w-48 sm:w-72 h-48 sm:h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
             </div>
 
-            {/* Botón cerrar */}
+           
             <button
               onClick={() => setModalActivo(null)}
               className="absolute top-9 right-10 text-gray-200 text-2xl font-bold z-40"
             >
             </button>
 
-            {/* Contenido dinámico */}
+        
             {modalActivo === "politica" && (
               <PoliticaPrivacidadModal onClose={() => setModalActivo(null)} />
             )}

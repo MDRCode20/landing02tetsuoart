@@ -78,7 +78,7 @@ const Header = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 flex justify-between items-center">
-        {/* Logo + nombre */}
+        
         <motion.a
           href="#"
           className="flex items-center space-x-5"
@@ -101,7 +101,7 @@ const Header = () => {
           </motion.p>
         </motion.a>
 
-        {/* Menú en escritorio */}
+        
         <motion.nav
           className={`hidden md:flex space-x-6 ${
             ["nosotros", "testimonios"].includes(seccionActiva)
@@ -126,7 +126,7 @@ const Header = () => {
           ))}
         </motion.nav>
 
-        {/* Botón admin */}
+      
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -141,7 +141,7 @@ const Header = () => {
           </Link>
         </motion.div>
 
-        {/* Botón hamburguesa */}
+        
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             <span className="text-3xl">&#9776;</span>

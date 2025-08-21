@@ -127,7 +127,7 @@ const Proyectos = () => {
       className="py-20 bg-gradient-to-b from-neutral-950 to-black text-white relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-10 relative">
-        {/* TÍTULO */}
+        
         <motion.h2
           className="text-4xl sm:text-5xl font-extrabold text-center mb-14 tracking-tight"
           initial={{ opacity: 0, y: -40 }}
@@ -138,7 +138,7 @@ const Proyectos = () => {
           Nuestros Proyectos
         </motion.h2>
 
-        {/* CARRUSEL DESKTOP */}
+       
         {!isMobile ? (
           <div
             className="relative py-3 overflow-hidden"
@@ -190,7 +190,7 @@ const Proyectos = () => {
             </motion.div>
           </div>
         ) : (
-          /* CARRUSEL MOBILE */
+        
           <div className="flex flex-col items-center text-center">
             <div className="relative w-full max-w-xs sm:max-w-sm min-h-[370px]">
               <AnimatePresence mode="wait" initial={false}>
@@ -244,7 +244,7 @@ const Proyectos = () => {
           </div>
         )}
 
-        {/* BOTÓN CTA */}
+        
         <motion.div
           className="mt-10 text-center"
           initial={{ opacity: 0, scale: 0.8 }}

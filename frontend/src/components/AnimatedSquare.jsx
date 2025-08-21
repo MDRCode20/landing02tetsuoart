@@ -27,13 +27,12 @@ export default function AnimatedSquare() {
       const dx = e.clientX - bounds.left - hw;
       const dy = e.clientY - bounds.top - hh;
 
-      // Reducimos el target para que no llegue del todo
-      target.x = utils.clamp(dx * 0.6, -hw, hw); // 0.6 define qué tan lejos se queda del cursor
+      target.x = utils.clamp(dx * 0.6, -hw, hw); 
       target.y = utils.clamp(dy * 0.6, -hh, hh);
     };
 
     const update = () => {
-      animatableSquare.x(utils.lerp(animatableSquare.x(), target.x, 0.09)); // Más lento
+      animatableSquare.x(utils.lerp(animatableSquare.x(), target.x, 0.09)); 
       animatableSquare.y(utils.lerp(animatableSquare.y(), target.y, 0.05));
       requestAnimationFrame(update);
     };

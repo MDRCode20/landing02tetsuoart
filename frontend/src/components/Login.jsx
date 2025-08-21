@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import { FiMail, FiLock } from "react-icons/fi";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // ⬅️ 1. Importar para redirigir
+import { useNavigate } from "react-router-dom"; 
 
 const Login = () => {
 
-  const navigate = useNavigate(); // ⬅️ 2. Hook para navegación
+  const navigate = useNavigate(); 
 
 
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ const Login = () => {
 };
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-black text-center relative overflow-hidden">
-      {/* Luces de fondo */}
+      
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-10 left-10 w-60 h-60 sm:w-72 sm:h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-10 right-10 w-60 h-60 sm:w-72 sm:h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
@@ -73,7 +73,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Campo contraseña */}
+          
           <div className="relative w-full">
             <div className="flex items-center w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-inner focus-within:ring-2 focus-within:ring-white/40 transition duration-300">
               <div className="pl-4 text-white/60 text-lg">
@@ -92,7 +92,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Botón */}
+          
           <motion.button
             type="submit"
             disabled={loading}

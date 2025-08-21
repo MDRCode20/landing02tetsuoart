@@ -29,7 +29,7 @@ const Testimonials = () => {
       id="testimonios"
       className="py-26 bg-white text-black px-4 sm:px-8"
     >
-      {/* 🎬 Animación al título */}
+      
       <motion.h2
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.8,
-                delay: index * 0.2, // 👈 animación escalonada
+                delay: index * 0.2, 
                 ease: "easeOut",
               }}
               viewport={{ once: true }}

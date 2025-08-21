@@ -31,7 +31,7 @@ const ContactForm = () => {
       const response = await fetch("http://localhost:8000/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json",
-               'Accept': 'application/json', // importante para Laravel
+               'Accept': 'application/json', 
          },
         body: JSON.stringify(formData),
       });
@@ -55,7 +55,7 @@ const ContactForm = () => {
       id="contacto"
       className="py-20 px-4 bg-black text-center relative overflow-hidden"
     >
-      {/* Luces de fondo */}
+      
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-10 right-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
@@ -73,7 +73,7 @@ const ContactForm = () => {
         </h2>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          {/* Nombre */}
+          
           <div className="relative">
             <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 text-lg pointer-events-none" />
             <motion.input
@@ -89,7 +89,7 @@ const ContactForm = () => {
             />
           </div>
 
-          {/* Correo */}
+         
           <div className="relative">
             <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 text-lg pointer-events-none" />
             <motion.input
@@ -104,7 +104,7 @@ const ContactForm = () => {
             />
           </div>
 
-          {/* Mensaje */}
+          
           <div className="relative">
             <FiEdit className="absolute left-4 top-5 text-white/70 text-lg pointer-events-none" />
             <motion.textarea
@@ -119,7 +119,7 @@ const ContactForm = () => {
             />
           </div>
 
-          {/* Botón */}
+        
           <motion.button
             className={`relative w-full overflow-hidden font-semibold py-3 rounded-2xl group transition ${
               isSubmitting

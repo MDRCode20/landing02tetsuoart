@@ -100,7 +100,7 @@ function ReclamationForm({ onClose }) {
         method: 'POST',
       headers: {
        'Content-Type': 'application/json',
-       'Accept': 'application/json', // importante para Laravel
+       'Accept': 'application/json', 
   },
         body: JSON.stringify(form),
       });
@@ -146,7 +146,7 @@ function ReclamationForm({ onClose }) {
     animate="visible"
     className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-7xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-15 sm:p-10 relative z-10"
   >
-{/* Botón de cierre */}
+
         <button
           type="button"
           onClick={onClose}
@@ -155,7 +155,6 @@ function ReclamationForm({ onClose }) {
           <X size={26} strokeWidth={2.5} />
         </button>
 
-    {/* Título */}
     <div className="md:col-span-2">
       <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-1 tracking-wide text-center">
         Libro de Reclamaciones
@@ -195,7 +194,7 @@ function ReclamationForm({ onClose }) {
 
     {/* Bloque 2 */}
     <div className="space-y-4">
-      {/* Tipo */}
+     
       <div className="text-left">
         <label className="block mb-2 text-sm font-semibold text-white">
           Tipo de reclamo
@@ -213,7 +212,7 @@ function ReclamationForm({ onClose }) {
      </select>
       </div>
 
-      {/* Detalle */}
+     
       <div className="text-left">
         <label className="block mb-1 text-sm font-semibold text-white">
           Detalle
@@ -229,7 +228,7 @@ function ReclamationForm({ onClose }) {
         />
       </div>
 
-      {/* Pedido */}
+      
       <div className="text-left">
         <label className="block mb-1 text-sm font-semibold text-white">
           Pedido
@@ -245,7 +244,7 @@ function ReclamationForm({ onClose }) {
         />
       </div>
 
-  {/* Botón */}
+ 
     <div className="md:col-span-2">
       <motion.button
         type="submit"

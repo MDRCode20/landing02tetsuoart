@@ -33,8 +33,8 @@ const cardVariants = {
 
 const About = () => {
   const { ref, inView } = useInView({
-    triggerOnce: true, // ✅ solo la primera vez que entra en pantalla
-    threshold: 0.2,    // empieza cuando se ve el 20% de la sección
+    triggerOnce: true, 
+    threshold: 0.2,    
   });
 
   return (
@@ -47,7 +47,7 @@ const About = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      {/* Overlay oscuro */}
+     
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/5 to-black/60 z-0"></div>
 
       <motion.div
@@ -56,7 +56,7 @@ const About = () => {
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
-        {/* Título */}
+        
         <motion.h2
           className="text-3xl sm:text-4xl font-bold text-black mb-6"
           variants={itemVariants}
@@ -64,7 +64,7 @@ const About = () => {
           Sobre Nosotros
         </motion.h2>
 
-        {/* Descripción */}
+        
         <motion.p
           className="mb-12 w-7/12 text-white text-base sm:text-md"
           variants={itemVariants}
@@ -75,7 +75,6 @@ const About = () => {
           de arquitectos, técnicos y diseñadores comprometidos con la excelencia.
         </motion.p>
 
-        {/* Grid con cards */}
         <motion.div
           className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
